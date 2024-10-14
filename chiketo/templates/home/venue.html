@@ -1,0 +1,398 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiketo - Event by Venue</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .header {
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            padding: 10px 0;
+            font-size: small;
+        }
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #fff;
+        }
+        .contact-info img {
+            width: 15px;
+            height: auto;
+        }
+        .menu-container {
+            width: 100%;
+            background-color: rgb(32, 32, 32);
+            padding: 10px 0 18px;
+            padding-top: 18px;
+        }
+        .menu-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            color: #fff;
+        }
+        .nav-items a {
+            text-decoration: none;
+            color: #fff;
+            font-size: small;
+        }
+        .cart-wrapper {
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+        }
+        .cart-icon {
+            width: 30px;
+            height: auto;
+        }
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+        }
+        .login-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .login-container label {
+            color: #666;
+            font-size: 14px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-container button {
+            width: 140px;
+            padding: 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: orangered;
+            color: white;
+        }
+
+        .register-btn {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .footer{
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            font-size: small;
+            padding-top: 50px;
+            padding-bottom: 100px;
+            width: 100%;
+            margin-top: auto;
+        }
+        .toggle-button {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgb(45, 45, 45);
+        }
+
+        .dropdown-menu a {
+            color: #606060;
+            text-decoration: none;
+            display: block;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .venue-box h3 {
+            color: rgb(49, 49, 49);
+            font-size: 18px;
+            border-bottom: 1px solid rgb(144, 144, 144);
+            padding: 10px 0;
+        }
+
+        .venue-box:hover h3 {
+            background-color: rgb(187, 187, 187);
+        }
+
+        .venue-box {
+            cursor: pointer;
+        }
+        .event-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .event-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .event-box:hover {
+            transform: scale(1.05);
+        }
+
+        .event-box img {
+            width: 100%;
+            height: auto;
+        }
+
+        .event-details {
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                width: 80%;
+            }
+            .auth-links {
+                flex-direction: column;
+            }
+            .header-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+            }
+            .contact-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Start -->
+        <div class="header">
+            <div class="header-content">
+                <div class="contact-info">
+                    <div class="song">
+                        <img src="{% static 'music.png' %}" alt="Toggle Music" class="toggle-button" id="toggleButton">
+                        <audio id="idolAudio" src="{% static 'Idol.mp3' %}"></audio>
+                        <audio id="SainWaBAudio" src="{% static 'SainWaB.mp3' %}"></audio>
+                    </div>
+                    <img src="{% static 'phone.png' %}" alt="Phone Icon">+6017-620 7253
+                    <img src="{% static 'email.png' %}" alt="Email Icon">asmawiaiman@gmail.com
+                </div>
+                <div class="auth-links" style="display: flex; align-items: center; gap: 10px;">
+                    <a href="{% url 'login' %}" style="color: rgb(163, 163, 163); text-decoration: none; font-size: small;">
+                        <strong style="color: orangered;">SIGN IN</strong>
+                    </a>
+                    <p>|</p>
+                    <a href="{% url 'signup' %}" style="color: rgb(163, 163, 163); text-decoration: none; font-size: small;">SIGN UP</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-container">
+            <div class="menu-content">
+                <a href="{% url 'index' %}" style="text-decoration: none;"><h1 style="font-family: 'Times New Roman', Times, serif; color: #fff;">Chiketo<span style="font-size: small; vertical-align: super;">&reg;</span></h1></a>
+                <div class="nav-items">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" style="font-weight: bold;">VENUES</a>
+                        <div class="dropdown-menu" id="venuesDropdown">
+                            <div id="venueList" class="venue-list"></div>
+                        </div>
+                    </div>
+                        <a href="{% url 'event' %}" style="font-weight: bold;">EVENTS</a>
+                        <a href="{% url 'contact' %}" style="font-weight: bold;">CONTACT</a>
+                        <a href="{% url 'cart' %}"><div class="cart-wrapper">
+                            <span style="vertical-align: super; margin-right: 10px;">0</span>
+                            <img src="{% static 'cart.png' %}" alt="Cart" class="cart-icon">
+                        </div></a>
+                </div>
+            </div>
+        </div>
+        <center>
+            <div class="messages">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div> 
+        </center>
+        <div id="eventList" class="event-list"></div>
+        <div class="footer">
+            <center>
+                <h1>Chiketo &copy; 2024</h1><br><br><br>
+                <h3>Asmawi Aiman Mohd Sani</h3>
+                <h3>ICS23-08-017</h3>
+            </center>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const events = JSON.parse(`[
+            {% for i in events %}
+            { "name": "{{ i.name }}", "eventID": "{{ i.eventID }}", "price": "{{i.price}}", "start": "{{i.start}}", "end": "{{i.end}}", "venue":"{{i.venueID.name}}", "staff": "{{i.staffID.name}}" }
+            {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]`);
+
+        const eventList = document.getElementById('eventList');
+        if (eventList && events.length > 0) {
+            events.forEach(event => {
+                const eventBox = document.createElement('div');
+                eventBox.className = 'event-box';
+                eventBox.innerHTML = `
+                    <div class="event-details">
+                    <center>
+                    <h3>${event.name}</h3>
+                    <p>Price: RM ${event.price}</p>
+                    <p>Start: ${event.start}</p>
+                    <p>End: ${event.end}</p>
+                    <p>Venue: ${event.venue}</p>
+                    <p>Staff: ${event.staff}</p>
+                    </center>
+                </div>
+                `;
+                eventList.appendChild(eventBox);
+            });
+        } else {
+            eventList.style.minHeight = "500px"; // Leave space in the middle if no events
+            eventList.innerHTML = '<center><h2>No events available</h2></center>'; // Show message if no events
+        }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownMenu = document.getElementById('venuesDropdown');
+    
+            dropdown.addEventListener('mouseenter', () => {
+                dropdownMenu.style.display = 'block';
+            });
+    
+            dropdown.addEventListener('mouseleave', () => {
+                dropdownMenu.style.display = 'none';
+            });
+            const venues = JSON.parse(`[
+            {% for i in venues %}
+            { "name": "{{ i.name }}", "venueID": "{{ i.venueID }}" }
+            {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]`);
+
+        const venueList = document.getElementById('venueList');
+        if (venueList) {
+            venues.forEach(venue => {
+                const venueBox = document.createElement('div');
+                venueBox.className = 'venue-box';
+                venueBox.innerHTML = `
+                    <div class="venue-details">
+                    <center>
+                    <h3>${venue.name}</h3>
+                    </center>
+                </div>
+                `;
+                venueBox.addEventListener('click', () => {
+                    window.location.href = "{% url 'venue' 0 %}".replace('0', venue.venueID);
+                });
+                venueList.appendChild(venueBox);
+            });
+        } else {
+            console.error("venueList element not found");
+        }
+        });
+    </script>
+    <script src="{% static 'audio-control.js' %}"></script>
+</body>
+</html>

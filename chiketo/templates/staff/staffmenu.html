@@ -1,0 +1,392 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiketo - Staff</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            padding: 10px 0;
+            font-size: small;
+        }
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #fff;
+        }
+        .contact-info img {
+            width: 15px;
+            height: auto;
+        }
+        .menu-container {
+            width: 100%;
+            background-color: rgb(32, 32, 32);
+            padding: 10px 0 18px;
+            padding-top: 18px;
+        }
+        .menu-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            color: #fff;
+        }
+        .nav-items a {
+            text-decoration: none;
+            color: #fff;
+            font-size: small;
+        }
+        .cart-wrapper {
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+        }
+        .cart-icon {
+            width: 30px;
+            height: auto;
+        }
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"],
+        .login-container input[type="email"],
+        .login-container input[type="number"],
+        .login-container input[type="datetime-local"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-container button {
+            width: 140px;
+            padding: 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: orangered;
+            color: white;
+        }
+        .footer{
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            font-size: small;
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+        .toggle-button {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgb(45, 45, 45);
+        }
+
+        .dropdown-menu a {
+            color: #606060;
+            text-decoration: none;
+            display: block;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .venue-box h3 {
+            color: rgb(49, 49, 49);
+            font-size: 18px;
+            border-bottom: 1px solid rgb(144, 144, 144);
+            padding: 10px 0;
+        }
+
+        .venue-box:hover h3 {
+            background-color: rgb(187, 187, 187);
+        }
+
+        .venue-box {
+            cursor: pointer;
+        }
+        .profile {
+            cursor: pointer;
+            position: relative;
+        }
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 120px;
+            z-index: 3;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgb(45, 45, 45);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .profile-dropdown a {
+            color: #000000;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            z-index: 3;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+        .cart-wrapper:hover{
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .login-container {
+                width: 80%;
+            }
+            .auth-links {
+                flex-direction: column;
+            }
+            .header-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+            }
+            .contact-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Start -->
+        <div class="header">
+            <div class="header-content">
+                <div class="contact-info">
+                    <div class="song">
+                        <img src="{% static 'music.png' %}" alt="Toggle Music" class="toggle-button" id="toggleButton">
+                        <audio id="idolAudio" src="{% static 'Idol.mp3' %}"></audio>
+                        <audio id="SainWaBAudio" src="{% static 'SainWaB.mp3' %}"></audio>
+                    </div>
+                    <img src="{% static 'phone.png' %}" alt="Phone Icon">+6017-620 7253
+                    <img src="{% static 'email.png' %}" alt="Email Icon">asmawiaiman@gmail.com
+                </div>
+                <div class="auth-links" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="profile">
+                        <img src="{% static 'user.png' %}" alt="Profile" id="profileImage" style="width: 30px; height: auto;">
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <h3 style="text-align: center;">Hi, {{name}}</h3>
+                            <a href="{% url 'logout' %}">Logout</a>
+                            <a href="#" id="closeDropdown">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-container">
+            <div class="menu-content">
+                <a href="{% url 'staffmenu' %}" style="text-decoration: none;"><h1 style="font-family: 'Times New Roman', Times, serif; color: #fff;">Chiketo<span style="font-size: small; vertical-align: super;">&reg;</span></h1></a>
+            </div>
+        </div>
+        <center>
+            <div class="messages" style="z-index: 3;">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div> 
+        </center>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; align-content: center;">
+            <div class="login-container">
+                <h2>Add Event</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>Name :</td>
+                            <td><input type="text" name="name" required></td>
+                        </tr>
+                        <tr>
+                            <td>Price (RM):</td>
+                            <td><input type="number" name="price" step="0.01" placeholder="e.g.: 1.00" required></td>
+                        </tr>
+                        <tr>
+                            <td>Start :</td>
+                            <td><input type="datetime-local" name="start" required></td>
+                        </tr>
+                        <tr>
+                            <td>End :</td>
+                            <td><input type="datetime-local" name="end" required></td>
+                        </tr>
+                        <tr>
+                            <td>VenueID :</td>
+                            <td><input type="text" name="venue_id" required></td>
+                        </tr>
+                    </table>
+                    <br>
+                        <button type="submit" class="login-btn">Add Event</button>
+                </form>
+            </div>
+            <div class="login-container">
+                <h2>Delete Event</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>EventID :</td>
+                            <td><input type="text" name="event_id" required></td>
+                        </tr>
+                    </table>
+                    <br>
+                        <button type="submit" class="login-btn">Delete Event</button>
+                </form>
+            </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; align-content: center;">
+            <div class="staff" style="margin: 0 20px 0;">
+                <h2>Total of Event You Handle available: {{sevents}}</h2>
+                <table style="border: 1px solid black; margin-bottom: 30px; text-align: center;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black;">EventID</td>
+                        <td style="border: 1px solid black;">Name</td>
+                        <td style="border: 1px solid black;">Price (RM)</td>
+                        <td style="border: 1px solid black;">Start</td>
+                        <td style="border: 1px solid black;">End</td>
+                        <td style="border: 1px solid black;">Venue Name</td>
+                    </tr>
+                    {% for i in events %}
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black;">{{i.eventID}}</td>
+                        <td style="border: 1px solid black;">{{i.name}}</td>
+                        <td style="border: 1px solid black;">{{i.price}}</td>
+                        <td style="border: 1px solid black;">{{i.start}}</td>
+                        <td style="border: 1px solid black;">{{i.end}}</td>
+                        <td style="border: 1px solid black;">{{i.venueID.name}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="venue" style="margin: 0 20px 0;">
+                <h2>Total of Venue: {{nvenues}}</h2>
+                <table style="border: 1px solid black; margin-bottom: 30px; text-align: center;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black;">VenueID</td>
+                        <td style="border: 1px solid black;">Name</td>
+                    </tr>
+                    {% for i in venues %}
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black;">{{i.venueID}}</td>
+                        <td style="border: 1px solid black;">{{i.name}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <center>
+                <h1>Chiketo &copy; 2024</h1><br><br><br>
+                <h3>Asmawi Aiman Mohd Sani</h3>
+                <h3>ICS23-08-017</h3>
+            </center>
+        </div>
+    </div>
+    <script src="{% static 'audio-control.js' %}"></script>
+    <script src="{% static 'userprofile.js' %}"></script>
+</body>
+</html>

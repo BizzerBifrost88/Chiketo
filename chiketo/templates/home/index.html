@@ -1,0 +1,479 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiketo</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 100%;
+            overflow-x: hidden; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 100%;
+            padding: 0;
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            font-size: small;
+            padding: 10px 0;
+        }
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #fff; 
+        }
+        .contact-info img {
+            width: 15px;
+            height: auto;
+        }
+        .img1 {
+            background-image: url("{% static 'img1.png' %}"); 
+            min-height: 850px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative; 
+            flex: 1;
+        }
+        .overlay {
+            position: absolute; 
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.85;
+            z-index: 1;
+        }
+        .caption {
+            position: relative;
+            width: 100%;
+            text-align: center; 
+            z-index: 2;
+        }
+        .menu-container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 18px;
+            padding-top: 18px;
+            border-bottom: 1px solid white;
+        }
+        .menu-content {
+            width: 100%;
+            margin-top: 2-px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 40px; 
+            color: #fff; 
+        }
+        .nav-items a {
+            text-decoration: none;
+            color: #fff; 
+            font-size: small; 
+        }
+        .cart-icon {
+            width: 30px;
+            height: auto;
+        }
+        .cart-wrapper {
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .middle-title {
+            position: absolute;
+            top: 500%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+        .middle-title h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .middle-title h2 {
+            font-size: 18px;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px 15px 15px 35px;
+            border-radius: 30px;
+            border: 2px solid white;
+            width: 600px; 
+            margin: 0 auto;
+            justify-content: center;
+        }
+        .search {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            padding: 5px 15px 5px 10px;
+        }
+        .search::placeholder {
+            color: white;
+            font-size: large;
+        }
+        .search-bar img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+        .box {
+            background-color: rgb(16, 16, 16);
+            padding: 50px;
+            width: 100%; 
+        }
+        .img2 {
+            background-image: url("{% static 'img2.png' %}"); 
+            min-height: 350px;
+            position: relative;
+            opacity: 0.74;
+            background-position:center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+        .stat {
+            flex: 1;
+            margin-top: 100px;
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .stat-text {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .line {
+            width: 50px;
+            height: 2px;
+            border: 2px solid white;
+            margin: 5px auto;
+            margin-top: 25px;
+            margin-bottom: 40px;
+        }
+        .img3{
+            background-image: url("{% static 'img3.png' %}"); 
+            min-height: 350px;
+            position: relative;
+            opacity: 0.74;
+            background-attachment: fixed;
+            background-position:center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .footer{
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            font-size: small;
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+        .caption span.border {
+            color: #fff;
+            padding: 18px;
+            font-size: 30px;
+        }
+        .img3 .caption {
+            position: absolute;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            color: white;
+            text-align: center;
+        }
+        
+        .toggle-button {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgb(45, 45, 45);
+            
+        }
+
+        .dropdown-menu a {
+            color: #606060;
+            text-decoration: none;
+            display: block;
+            padding-right: 15px;
+            padding-left: 15px;
+            
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .venue-box h3 {
+            color: rgb(49, 49, 49);
+            font-size: 18px;
+            border-bottom: 1px solid rgb(144, 144, 144);
+            padding: 10px 0;
+        }
+
+        .venue-box:hover h3 {
+            background-color: rgb(187, 187, 187); 
+        }
+
+        .venue-box {
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .header-content, .menu-container, .nav-items {
+                flex-direction: column;
+            }
+            .toggle-button {
+                width: 50px;
+                height: 50px;
+            }
+            .middle-title h1 {
+                font-size: 18px;
+            }
+            .middle-title h2 {
+                font-size: 14px;
+            }
+            .search-bar {
+                width: 90%;
+            }
+            .img1 {
+                min-height: 50vh;
+            }
+            .stat-number {
+                font-size: 24px;
+            }
+            .stat {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="contact-info">
+                    <div class="song">
+                        <img src="{% static 'music.png' %}" alt="Toggle Music" class="toggle-button" id="toggleButton">
+                        <audio id="idolAudio" src="{% static 'Idol.mp3' %}"></audio>
+                        <audio id="SainWaBAudio" src="{% static 'SainWaB.mp3' %}"></audio>
+                    </div>
+                    <img src="{% static 'phone.png' %}" alt="Phone Icon">+6017-620 7253
+                    <img src="{% static 'email.png' %}" alt="Email Icon">asmawiaiman@gmail.com
+                </div>
+                <div class="auth-links" style="display: flex; align-items: center; gap: 10px;">
+                    <a href="{% url 'login' %}" style="color: rgb(163, 163, 163); text-decoration: none; font-size: small;">
+                        <strong style="color: orangered;">SIGN IN</strong>
+                    </a>
+                    <p>|</p>
+                    <a href="{% url 'signup' %}" style="color: rgb(163, 163, 163); text-decoration: none; font-size: small;">SIGN UP</a>
+                </div>
+            </div>
+        </div>
+        <div class="img1">
+            <div class="overlay" style=" background: linear-gradient(to bottom right, rgb(255, 0, 0), rgb(255, 115, 0));"></div>
+            <div class="caption">
+                <div class="menu-container">
+                    <div class="menu-content">
+                        <a href="{% url 'index' %}" style="text-decoration: none;"><h1 style="font-family: 'Times New Roman', Times, serif; color: #fff;">Chiketo<span style="font-size: small; vertical-align: super;">&reg;</span></h1></a>
+                        <div class="nav-items">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" style="font-weight: bold;">VENUES</a>
+                                <div class="dropdown-menu" id="venuesDropdown">
+                                    <div id="venueList" class="venue-list"></div>
+                                </div>
+                            </div>
+                                <a href="{% url 'event' %}" style="font-weight: bold;">EVENTS</a>
+                                <a href="{% url 'contact' %}" style="font-weight: bold;">CONTACT</a>
+                            <a href="{% url 'cart' %}"><div class="cart-wrapper">
+                                <span style="vertical-align: super; margin-right: 10px;">0</span>
+                                <img src="{% static 'cart.png' %}" alt="Cart" class="cart-icon">
+                            </div></a>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <div class="messages" style="z-index: 3;">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div> 
+                </center>
+                <div class="middle-title">
+                    <h1>Making Your Life Easier</h1>
+                    <h2>Help you get your ticket faster than ever</h2>
+                </div>
+                <center>
+                    <div class="messages" style="z-index: 3;">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div> 
+                </center>
+            </div>
+        </div>
+
+        <div class="box"></div>
+
+        <div class="img2">
+            <div class="overlay" style=" background-color: #000000b5;"></div>
+            <div class="caption">
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">{{myevent}}</div>
+                        <div class="line"></div>
+                        <div class="stat-text">EVENTS ORGANIZED</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">{{myuser}}</div>
+                        <div class="line"></div>
+                        <div class="stat-text">ACTIVE USERS</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">{{bookings}}</div>
+                        <div class="line"></div>
+                        <div class="stat-text">TICKETS SOLD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="background-color: #fff; padding: 20px;"></div>
+        <div class="img3">
+            <div class="caption">
+                <span class="border">
+                    <h1>Grab Now!</h1>
+                    <h3>Nothing easier than this</h3>
+                </span>
+            </div>
+        </div>
+        <div style="background-color: #fff; padding: 20px;"></div>
+        <div class="footer">
+            <center>
+                <h1>Chiketo &copy; 2024</h1><br><br><br>
+                <h3>Asmawi Aiman Mohd Sani</h3>
+                <h3>ICS23-08-017</h3>
+            </center>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const dropdown = document.querySelector('.dropdown');
+                const dropdownMenu = document.getElementById('venuesDropdown');
+        
+                dropdown.addEventListener('mouseenter', () => {
+                    dropdownMenu.style.display = 'block';
+                });
+        
+                dropdown.addEventListener('mouseleave', () => {
+                    dropdownMenu.style.display = 'none';
+                });
+                const venues = JSON.parse(`[ 
+                {% for i in venues %}
+                { "name": "{{ i.name }}", "venueID": "{{ i.venueID }}" }
+                {% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]`);
+
+            const venueList = document.getElementById('venueList');
+            if (venueList) {
+                venues.forEach(venue => {
+                    const venueBox = document.createElement('div');
+                    venueBox.className = 'venue-box';
+                    venueBox.innerHTML = `
+                        <div class="venue-details">
+                        <center>
+                        <h3>${venue.name}</h3>
+                        </center>
+                    </div>
+                    `;
+                    venueBox.addEventListener('click', () => {
+                        window.location.href = "{% url 'venue' 0 %}".replace('0', venue.venueID);
+                    });
+                    venueList.appendChild(venueBox);
+                });
+            } else {
+                console.error("venueList element not found");
+            }
+            });
+        </script>
+        <script src="{% static 'audio-control.js' %}"></script>
+    </div>
+</body>
+</html>

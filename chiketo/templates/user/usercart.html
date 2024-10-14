@@ -1,0 +1,373 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiketo - User Cart</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .header {
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            padding: 10px 0;
+            font-size: small;
+        }
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #fff;
+        }
+        .contact-info img {
+            width: 15px;
+            height: auto;
+        }
+        .menu-container {
+            width: 100%;
+            background-color: rgb(32, 32, 32);
+            padding: 10px 0 18px;
+            padding-top: 18px;
+        }
+        .menu-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            color: #fff;
+        }
+        .nav-items a {
+            text-decoration: none;
+            color: #fff;
+            font-size: small;
+        }
+        .cart-wrapper {
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+        }
+        .cart-icon {
+            width: 30px;
+            height: auto;
+        }
+        .footer{
+            background-color: rgb(16, 16, 16);
+            color: rgb(163, 163, 163);
+            font-size: small;
+            padding-top: 50px;
+            padding-bottom: 100px;
+            width: 100%;
+            margin-top: auto;
+        }
+        .event-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .event-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            text-align: center;
+        }
+        .event-box:hover {
+            transform: scale(1.05);
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .event-button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .pay-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+        }
+        .profile {
+            cursor: pointer;
+            position: relative;
+        }
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 120px;
+            z-index: 3;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgb(45, 45, 45);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .profile-dropdown a {
+            color: #000000;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            z-index: 3;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgb(45, 45, 45);
+            
+        }
+
+        .dropdown-menu a {
+            color: #606060;
+            text-decoration: none;
+            display: block;
+            padding-right: 15px;
+            padding-left: 15px;
+            
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .venue-box h3 {
+            color: rgb(49, 49, 49);
+            font-size: 18px;
+            border-bottom: 1px solid rgb(144, 144, 144);
+            padding: 10px 0;
+        }
+
+        .venue-box:hover h3 {
+            background-color: rgb(187, 187, 187); 
+        }
+
+        .venue-box {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Start -->
+        <div class="header">
+            <div class="header-content">
+                <div class="contact-info">
+                    <div class="song">
+                        <img src="{% static 'music.png' %}" alt="Toggle Music" class="toggle-button" id="toggleButton">
+                        <audio id="idolAudio" src="{% static 'Idol.mp3' %}"></audio>
+                        <audio id="SainWaBAudio" src="{% static 'SainWaB.mp3' %}"></audio>
+                    </div>
+                    <img src="{% static 'phone.png' %}" alt="Phone Icon">+6017-620 7253
+                    <img src="{% static 'email.png' %}" alt="Email Icon">asmawiaiman@gmail.com
+                </div>
+                <div class="auth-links" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="profile">
+                        <img src="{% static 'user.png' %}" alt="Profile" id="profileImage" style="width: 30px; height: auto;">
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <a href="{% url 'usersetting' %}">Setting</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                            <a href="#" id="closeDropdown">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-container">
+            <div class="menu-content">
+                <a href="{% url 'usermenu' %}" style="text-decoration: none;"><h1 style="font-family: 'Times New Roman', Times, serif; color: #fff;">Chiketo<span style="font-size: small; vertical-align: super;">&reg;</span></h1></a>
+                <div class="nav-items">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" style="font-weight: bold;">VENUES</a>
+                        <div class="dropdown-menu" id="venuesDropdown">
+                            <div id="venueList" class="venue-list"></div>
+                        </div>
+                    </div>
+                        <a href="{% url 'userevent' %}" style="font-weight: bold;">EVENTS</a>
+                        <a href="{% url 'usercontact' %}" style="font-weight: bold;">CONTACT</a>
+                        <a href="{% url 'usercart' %}"><div class="cart-wrapper">
+                            <span style="vertical-align: super; margin-right: 10px;">{{mybooking}}</span>
+                            <img src="{% static 'cart.png' %}" alt="Cart" class="cart-icon">
+                        </div></a>
+                </div>
+            </div>
+        </div>
+        <center>
+            <div class="messages">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div> 
+        </center>
+        <center><h2>Cart</h2></center><br>
+        <div id="eventList" class="event-list">
+            {% with not_paid_bookings=bookings|dictsort:"pay" %}
+            {% if not_paid_bookings|dictsort:"pay"|length > 0 %}
+                {% for booking in not_paid_bookings %}
+                    {% if booking.pay == 'not pay' %}
+                        <div class="event-box">
+                            <h3>{{ booking.eventID.name }}</h3>
+                            <p>Price: RM {{ booking.eventID.price }}</p>
+                            <p>Start: {{ booking.eventID.start }}</p>
+                            <p>End: {{ booking.eventID.end }}</p>
+                            <p>Venue: {{ booking.eventID.venueID.name }}</p>
+                            <div class="button-container">
+                                <form method="post" action="{% url 'usercart_pay' booking.bookingID %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="event-button pay-button">Pay</button>
+                                </form>
+                                <form method="post" action="{% url 'usercart_delete' booking.bookingID %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="event-button delete-button">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </div>
+        <center><div style="border-bottom: 2px solid rgb(181, 181, 181); width: 80%; margin-top: 40px;"></div></center><br><br><br>
+        <center><h2>History of Booking</h2></center><br>
+        <div id="eventList" class="event-list">
+                {% with paid_bookings=bookings|dictsort:"pay" %}
+                {% if paid_bookings|length > 0 %}
+                    {% for booking in paid_bookings %}
+                        {% if booking.pay == 'paid' %}
+                            <div class="event-box">
+                                <h3>{{ booking.eventID.name }}</h3>
+                                <p>Price: RM {{ booking.eventID.price }}</p>
+                                <p>Start: {{ booking.eventID.start }}</p>
+                                <p>End: {{ booking.eventID.end }}</p>
+                                <p>Venue: {{ booking.eventID.venueID.name }}</p>
+                                <p>Status: <span style="color: #4CAF50;">Paid</span></p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+        </div>
+        <div class="footer">
+            <center>
+                <h1>Chiketo &copy; 2024</h1><br><br><br>
+                <h3>Asmawi Aiman Mohd Sani</h3>
+                <h3>ICS23-08-017</h3>
+            </center>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const dropdown = document.querySelector('.dropdown');
+                const dropdownMenu = document.getElementById('venuesDropdown');
+        
+                dropdown.addEventListener('mouseenter', () => {
+                    dropdownMenu.style.display = 'block';
+                });
+        
+                dropdown.addEventListener('mouseleave', () => {
+                    dropdownMenu.style.display = 'none';
+                });
+                const venues = JSON.parse(`[ 
+                {% for i in venues %}
+                { "name": "{{ i.name }}", "venueID": "{{ i.venueID }}" }
+                {% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]`);
+    
+            const venueList = document.getElementById('venueList');
+            if (venueList) {
+                venues.forEach(venue => {
+                    const venueBox = document.createElement('div');
+                    venueBox.className = 'venue-box';
+                    venueBox.innerHTML = `
+                        <div class="venue-details">
+                        <center>
+                        <h3>${venue.name}</h3>
+                        </center>
+                    </div>
+                    `;
+                    venueBox.addEventListener('click', () => {
+                        window.location.href = "{% url 'uservenue' 0 %}".replace('0', venue.venueID);
+                    });
+                    venueList.appendChild(venueBox);
+                });
+            } else {
+                console.error("venueList element not found");
+            }
+            });
+        </script>
+        <script src="{% static 'audio-control.js' %}"></script>
+        <script src="{% static 'userprofile.js' %}"></script>
+    </div>
+</body>
+</html>
