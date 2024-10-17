@@ -96,8 +96,6 @@ def signup(request):
     context = {
         'venues':venues,
     }
-
-
     return render(request, 'home/signup.html', context)
 
 
